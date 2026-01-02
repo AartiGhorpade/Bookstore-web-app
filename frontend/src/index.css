@@ -31,7 +31,81 @@
 }
 
 @layer components {
-  .purpleColor {
+  .purpleText {
     @apply text-purple-300;
+  }
+
+  .dark-purple-text {
+    @apply text-purple-800
+  }
+}
+
+.book-slider .swiper-pagination {
+  position: relative;
+  margin-top: 30px;
+}
+
+/* Light mode dots */
+.book-slider .swiper-pagination-bullet {
+  background-color: #94a3b8;
+  opacity: 1;
+}
+
+/* Active dot (light) */
+.book-slider .swiper-pagination-bullet-active {
+  background-color: #9e33d3;
+  /* blue-600 */
+}
+
+/* Dark mode dots */
+.dark .book-slider .swiper-pagination-bullet {
+  background-color: #475569;
+}
+
+/* Active dot (dark) */
+.dark .book-slider .swiper-pagination-bullet-active {
+  background-color: #9e33d3;
+}
+
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 575px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
   }
 }
