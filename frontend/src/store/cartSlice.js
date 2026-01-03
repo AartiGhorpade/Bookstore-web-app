@@ -32,33 +32,44 @@ const cartSlice = createSlice({
 
         removeFromCart: (state, action) => {
             const id = action.payload;
-            const existingItem = state.cartItems.find((i) => i._id === i._id);
+
+            const existingItem = state.cartItems.find(
+                (item) => item._id === id
+            );
 
             if (existingItem) {
                 state.totalQuantity -= existingItem.quantity;
                 state.totalPrice -= existingItem.price * existingItem.quantity;
-                state.cartItems = state.cartItems.filter((i) => i.id !== id);
+
+                state.cartItems = state.cartItems.filter(
+                    (item) => item._id !== id
+                );
             }
 
             localStorage.setItem("cart", JSON.stringify(state));
         },
+
 
         decreaseQuantity: (state, action) => {
             const id = action.payload;
-            const item = state.cartItems.find((i) => i._id === i._id);
+            const existingItem = state.cartItems.find((i) => i.id === id);
 
-            if (item) {
-                item.quantity -= 1;
-                state.totalQuantity -= 1;
-                state.totalPrice -= item.price;
+            if (!existingItem) return;
 
-                if (item.quantity === 0) {
-                    state.cartItems = state.cartItems.filter((i) => i._id !== id);
-                }
+            // If quantity is 1 → remove item
+            if (existingItem.quantity === 1) {
+                state.cartItems = state.cartItems.filter((i) => i.id !== id);
+            } else {
+                existingItem.quantity -= 1;
             }
 
+            state.totalQuantity -= 1;
+            state.totalPrice -= existingItem.price;
+
+            // Save to localStorage
             localStorage.setItem("cart", JSON.stringify(state));
         },
+
 
         clearCart: (state) => {
             state.cartItems = [];

@@ -11,9 +11,11 @@ const Cart = () => {
     (state) => state.cart
   );
   const dispatch = useDispatch();
-  console.log("====================================");
+
+  console.log('====================================');
   console.log(cartItems);
-  console.log("====================================");
+  console.log('====================================');
+
   if (cartItems.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh]">
@@ -58,8 +60,9 @@ const Cart = () => {
               {/* Quantity Controls */}
               <div className="flex items-center gap-5 mt-3">
                 <button
+                  disabled={item.quantity === 1}
                   onClick={() => dispatch(decreaseQuantity(item.id))}
-                  className="w-6 h-6 border rounded flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="w-6 h-6 border rounded flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
                 >
                   −
                 </button>
@@ -76,7 +79,7 @@ const Cart = () => {
 
               {/* Remove */}
               <button
-                onClick={() => dispatch(removeFromCart(item.id))}
+                onClick={() => dispatch(removeFromCart(item._id))}
                 className="mt-5 text-sm text-red-500 hover:underline"
               >
                 Remove

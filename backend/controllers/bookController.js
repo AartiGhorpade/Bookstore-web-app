@@ -43,3 +43,24 @@ export const getNewArrivals = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+export const singleBook = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const book = await Book.findById(id);
+
+        if (!book) {
+            return res.status(404).json({
+                message: "Book not found",
+            });
+        }
+
+        res.status(200).json(book);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+};

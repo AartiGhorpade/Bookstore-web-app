@@ -35,7 +35,8 @@ const FavBookSection = () => {
             focus:outline-none focus:ring-2 focus:ring-indigo-500
             bg-white text-gray-900
             dark:bg-gray-800 dark:text-white dark:border-gray-600
-            w-[90%] md:w-[80%] "/>
+            w-[90%] md:w-[80%] "
+            />
 
             {/* Button */}
             <button

@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import SingleBook from "./components/SingleBook";
 import Home from "./pages/Home";
-import Cart from "./pages/Cart";
-
-import "./index.css";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
+import Cart from "./pages/Cart";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
   const darkMode = useSelector((state) => state.theme.darkMode);
@@ -18,20 +20,32 @@ function App() {
   }, [darkMode]);
 
   return (
-    <Router>
-      <div className="bg-gray-100 dark:bg-gray-900 min-h-screen dark:text-white">
-        <Navbar />
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen dark:text-white">
+      <Navbar />
 
-        <div className="container mt-[64px]">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-        </div>
+      <div className="container mt-[64px]">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/book/:id" element={<SingleBook />} />
+
+          {/* Protected Route */}
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Auth */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
       </div>
-    </Router>
+    </div>
   );
 }
 
