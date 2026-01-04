@@ -20,60 +20,62 @@ const Navbar = () => {
 
   const isLoggedIn = !!localStorage.getItem("token");
 
+  // ✅ ONE FUNCTION — closes drawer + navigates
+  const goTo = (path) => {
+    setMenuOpen(false);
+    navigate(path);
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/login");
+    goTo("/login");
   };
-
-  const renderLinks = (isMobile = false) =>
-    navLinks.map((link) => (
-      <button
-        key={link.name}
-        onClick={() => navigate(link.path)}
-        className={`hover:dark-purple-text dark:purpleText lg:text-[18px] text-[16px] font-semibold ${
-          isMobile ? "block py-2 w-full text-left" : ""
-        }`}
-      >
-        {link.name}
-      </button>
-    ));
 
   return (
     <nav
       className={`fixed top-0 w-full z-50 shadow ${
         darkMode
-          ? "bg-gray-900 text-white border-b border-b-gray-700"
-          : "bg-white text-black border-b border-b-gray-300"
+          ? "bg-gray-900 text-white border-b border-gray-700"
+          : "bg-white text-black border-b border-gray-300"
       }`}
     >
       <div className="max-w-7xl mx-auto px-8 h-16 flex justify-between items-center">
+        {/* Logo */}
         <button
-          onClick={() => navigate("/")}
-          className="lg:text-[22px] text-[16px] font-bold dark-purple-text dark:purpleText"
+          onClick={() => goTo("/")}
+          className="lg:text-[22px] text-[16px] font-bold"
         >
           BookNest
         </button>
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-6">
-          {renderLinks()}
+          {navLinks.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => goTo(link.path)}
+              className="font-semibold"
+            >
+              {link.name}
+            </button>
+          ))}
 
           {/* Cart */}
           <div
             className="relative cursor-pointer"
-            onClick={() => navigate("/cart")}
+            onClick={() => goTo("/cart")}
           >
-            <span className="text-2xl">🛒</span>
+            🛒
             {totalQuantity > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs font-bold">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">
                 {totalQuantity}
               </span>
             )}
           </div>
 
           {/* Theme */}
-          <button onClick={() => dispatch(toggleTheme())} className="text-xl">
+          <button onClick={() => dispatch(toggleTheme())}>
             {darkMode ? "☀️" : "🌙"}
           </button>
 
@@ -81,14 +83,14 @@ const Navbar = () => {
           {isLoggedIn ? (
             <button
               onClick={handleLogout}
-              className="px-4 py-1 bg-red-500 rounded text-white"
+              className="bg-red-500 px-3 py-1 rounded"
             >
               Logout
             </button>
           ) : (
             <button
-              onClick={() => navigate("/login")}
-              className="px-4 py-1 bg-purple-600 rounded text-white font-bold"
+              onClick={() => goTo("/login")}
+              className="bg-purple-600 px-3 py-1 rounded text-white"
             >
               Login
             </button>
@@ -97,36 +99,32 @@ const Navbar = () => {
 
         {/* Mobile */}
         <div className="md:hidden flex items-center gap-4">
-          <div
-            className="relative cursor-pointer"
-            onClick={() => navigate("/cart")}
-          >
-            <span className="text-2xl">🛒</span>
-            {totalQuantity > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs font-bold">
-                {totalQuantity}
-              </span>
-            )}
-          </div>
+          <button onClick={() => goTo("/cart")}>🛒</button>
 
-          <button onClick={() => dispatch(toggleTheme())} className="text-xl">
+          <button onClick={() => dispatch(toggleTheme())}>
             {darkMode ? "☀️" : "🌙"}
           </button>
 
-          <button onClick={() => setMenuOpen(!menuOpen)} className="text-2xl">
-            ☰
-          </button>
+          <button onClick={() => setMenuOpen(!menuOpen)}>☰</button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer */}
       {menuOpen && (
         <div
           className={`md:hidden px-4 pb-4 ${
             darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
           }`}
         >
-          {renderLinks(true)}
+          {navLinks.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => goTo(link.path)}
+              className="block w-full text-left py-2"
+            >
+              {link.name}
+            </button>
+          ))}
 
           {isLoggedIn ? (
             <button
@@ -137,8 +135,8 @@ const Navbar = () => {
             </button>
           ) : (
             <button
-              onClick={() => navigate("/login")}
-              className="w-full mt-2 py-2 bg-purple-600 rounded text-white font-bold"
+              onClick={() => goTo("/login")}
+              className="w-full mt-2 py-2 bg-purple-600 rounded text-white"
             >
               Login
             </button>

@@ -11,7 +11,7 @@ const BookCard = ({ book }) => {
 
   useEffect(() => {
     if (alert) {
-      const timer = setTimeout(() => setAlert(null), 3000);
+      const timer = setTimeout(() => setAlert(null), 1000);
       return () => clearTimeout(timer);
     }
   }, [alert]);

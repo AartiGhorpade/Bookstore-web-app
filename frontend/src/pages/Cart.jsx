@@ -5,16 +5,22 @@ import {
   addToCart,
   clearCart,
 } from "../store/cartSlice";
+import { useEffect, useState } from "react";
+import Alert from "../components/Alert";
 
 const Cart = () => {
   const { cartItems, totalQuantity, totalPrice } = useSelector(
     (state) => state.cart
   );
   const dispatch = useDispatch();
+  const [alert, setAlert] = useState(null);
 
-  console.log('====================================');
-  console.log(cartItems);
-  console.log('====================================');
+  useEffect(() => {
+    if (alert) {
+      const timer = setTimeout(() => setAlert(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
 
   if (cartItems.length === 0) {
     return (
@@ -26,23 +32,32 @@ const Cart = () => {
 
   return (
     <div className="px-4 pt-[100px] grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="md:col-span-2 space-y-4">
-        <h2 className="lg:text-[30px] md:text-[25px] text-[20px] font-bold mb-8">
+      {alert && (
+        <div className="fixed top-5 right-5 z-[50] w-80 pointer-events-none">
+          <Alert
+            type={alert.type}
+            message={alert.message}
+            onClose={() => setAlert(null)}
+          />
+        </div>
+      )}
+      <div className="md:col-span-2 space-y-4 order-2 sm:order-1">
+        <h2 className="lg:text-[30px] md:text-[25px] text-[20px] font-bold mb-8 max-sm:mt-6">
           Shopping Cart ({totalQuantity} items)
         </h2>
 
         {cartItems.map((item) => (
           <div
             key={item.id}
-            className="flex gap-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+            className="sm:flex gap-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
           >
             <img
               src={item.img}
               alt={item.title}
-              className="w-[150px] h-[250px] object-contain rounded"
+              className="w-[200px] sm:w-[150px] h-[250px] object-contain rounded max-sm:mx-auto"
             />
 
-            <div className="flex-1">
+            <div className="flex-1 max-sm:mt-6">
               <h4 className="lg:text-[22px] text-[16px] font-semibold text-gray-900 dark:text-white">
                 {item.title}
               </h4>
@@ -100,7 +115,7 @@ const Cart = () => {
       </div>
 
       {/* RIGHT: Summary */}
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6 h-fit lg:mt-[75px]">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-6 h-fit lg:mt-[75px] order-1 sm:order-2">
         <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
 
         <div className="flex justify-between mb-2 space-y-2">
@@ -113,7 +128,19 @@ const Cart = () => {
           <span className="font-semibold">₹{totalPrice}</span>
         </div>
 
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-medium mt-5">
+        <button
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-medium mt-5"
+          onClick={() => {
+            setAlert({
+              type: "success",
+              message: "Thank you for shopping with us 🎉",
+            });
+
+            setTimeout(() => {
+              dispatch(clearCart());
+            }, 2000); 
+          }}
+        >
           Proceed to Checkout
         </button>
 

@@ -30,6 +30,9 @@ const Signup = () => {
     if (!name || !email || !password) {
       return setError("All fields are required");
     }
+    if (password.length < 8) {
+      return setError("Password must be above 8 characters");
+    }
 
     try {
       setLoading(true);
