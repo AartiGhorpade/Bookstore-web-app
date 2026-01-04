@@ -15,6 +15,8 @@ const Signup = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  console.log("BASE URL 👉", import.meta.env.VITE_BASE_URL);
+
   const from = location.state?.from || "/";
   useEffect(() => {
     if (alert) {

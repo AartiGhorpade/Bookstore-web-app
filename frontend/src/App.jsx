@@ -10,6 +10,8 @@ import Cart from "./pages/Cart";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const darkMode = useSelector((state) => state.theme.darkMode);
@@ -21,6 +23,7 @@ function App() {
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen dark:text-white">
+      <ScrollToTop />
       <Navbar />
 
       <div className="container mt-[64px]">
@@ -44,6 +47,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
+        <Footer />
       </div>
     </div>
   );

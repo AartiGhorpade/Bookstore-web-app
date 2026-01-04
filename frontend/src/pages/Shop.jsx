@@ -7,12 +7,22 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const Shop = () => {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/books`)
-      .then((res) => setBooks(res.data))
-      .catch((err) => console.log(err));
+    const fetchBooks = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/books`);
+        setBooks(res.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        // small delay for smooth UX (optional)
+        setTimeout(() => setLoading(false), 800);
+      }
+    };
+
+    fetchBooks();
   }, []);
 
   // 🔍 Filter logic
@@ -22,34 +32,45 @@ const Shop = () => {
       book.author.toLowerCase().includes(search.toLowerCase())
   );
 
+  // 🔄 Loader
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-lg font-semibold dark:text-white">
+            Loading books...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-[70px] pb-10">
-      <div className="md:flex justify-between">
+      <div className="md:flex justify-between items-center">
         <h2 className="lg:text-[40px] md:text-[35px] text-[30px] font-bold my-10">
           All Books
         </h2>
 
-        {/* Search */}
-        <div>
-          <div className="flex my-10">
-            <input
-              type="text"
-              placeholder="Search books, authors..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="
+        {/* 🔍 Search */}
+        <div className="flex my-10 w-full md:w-[40%]">
+          <input
+            type="text"
+            placeholder="Search books, authors..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="
               flex-1 px-4 py-2
               rounded-l-lg
               border border-r-0 border-gray-300
               focus:outline-none focus:ring-1 focus:ring-indigo-500
               bg-white text-gray-900
               dark:bg-gray-800 dark:text-white dark:border-gray-600
-              w-[90%] md:w-[90%]
             "
-            />
-
-            <button
-              className="
+          />
+          <button
+            className="
               px-6 py-2
               rounded-r-lg
               bg-indigo-600 text-white
@@ -57,14 +78,13 @@ const Shop = () => {
               transition
               dark:bg-indigo-500 dark:hover:bg-indigo-600
             "
-            >
-              Search
-            </button>
-          </div>
+          >
+            Search
+          </button>
         </div>
       </div>
 
-      {/* Books */}
+      {/* 📚 Books */}
       {filteredBooks.length === 0 ? (
         <p className="text-center text-gray-500 mt-10 text-2xl">
           No books found 📚
