@@ -99,7 +99,17 @@ const Navbar = () => {
 
         {/* Mobile */}
         <div className="md:hidden flex items-center gap-4">
-          <button onClick={() => goTo("/cart")}>🛒</button>
+          <div
+            className="relative cursor-pointer"
+            onClick={() => goTo("/cart")}
+          >
+            🛒
+            {totalQuantity > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">
+                {totalQuantity}
+              </span>
+            )}
+          </div>
 
           <button onClick={() => dispatch(toggleTheme())}>
             {darkMode ? "☀️" : "🌙"}
