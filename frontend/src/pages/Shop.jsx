@@ -48,7 +48,7 @@ const Shop = () => {
 
   return (
     <div className="pt-[70px] pb-10">
-      <div className="md:flex justify-between items-center">
+      <div className="md:flex lg:justify-between max-lg:gap-20 items-center">
         <h2 className="lg:text-[40px] md:text-[35px] text-[30px] font-bold my-10">
           All Books
         </h2>
@@ -66,7 +66,7 @@ const Shop = () => {
               border border-r-0 border-gray-300
               focus:outline-none focus:ring-1 focus:ring-indigo-500
               bg-white text-gray-900
-              dark:bg-gray-800 dark:text-white dark:border-gray-600
+              dark:bg-gray-800 dark:text-white dark:border-gray-600 max-[400px]:w-[90%]
             "
           />
           <button

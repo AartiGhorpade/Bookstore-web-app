@@ -41,7 +41,7 @@ const BookCard = ({ book }) => {
       <div className="bg-white dark:bg-black rounded-lg shadow hover:shadow-lg transition overflow-hidden cursor-pointer md:w-fit">
         {/* Book Image */}
         <div
-          className="lg:w-[280px] lg:h-[300px] dark:bg-black flex items-center justify-center rounded-lg"
+          className="lg:w-[280px] lg:h-[350px] dark:bg-black flex items-center justify-center rounded-lg"
           onClick={() => navigate(`/book/${book._id}`)}
         >
           <img

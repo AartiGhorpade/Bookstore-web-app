@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Alert from "../components/Alert";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -98,10 +98,11 @@ const Login = () => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
-        <a href="/signup" className="text-black dark:text-blue-300 mt-4 block">
+        <Link to="/signup" className="text-black dark:text-blue-300 mt-4 block">
           Don't have account? Please signup.
-        </a>
+        </Link>
       </form>
+      {/*  */}
     </div>
   );
 };
