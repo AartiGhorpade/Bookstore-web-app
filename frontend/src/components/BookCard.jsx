@@ -38,7 +38,7 @@ const BookCard = ({ book }) => {
         )}
       </div>
 
-      <div className="bg-white dark:bg-black rounded-lg shadow hover:shadow-lg transition overflow-hidden cursor-pointer">
+      <div className="bg-white dark:bg-black rounded-lg shadow hover:shadow-lg transition overflow-hidden cursor-pointer md:w-fit">
         {/* Book Image */}
         <div
           className="lg:w-[280px] lg:h-[300px] dark:bg-black flex items-center justify-center rounded-lg"
